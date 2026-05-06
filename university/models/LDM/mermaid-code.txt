@@ -1,0 +1,87 @@
+erDiagram
+  Faculties {
+    int id PK
+    varchar name
+  }
+
+  Careers {
+    int id PK
+    varchar name
+    int faculty_id FK
+  }
+
+  Courses {
+    int id PK
+    varchar name
+    int faculty_id FK
+  }
+
+  Schedules {
+    int id PK
+    varchar day
+    varchar start_time
+    varchar end_time
+  }
+
+  Buildings {
+    int id PK
+    varchar name
+  }
+
+  Classrooms {
+    int id PK
+    varchar name
+    int building_id FK
+  }
+
+  Roles {
+    int id PK
+    varchar name
+  }
+
+  Users {
+    int id PK
+    varchar first_name
+    varchar last_name
+    int role_id FK
+  }
+
+  Course_Schedule {
+    int id PK
+    int course_id FK
+    int schedule_id FK
+    int classroom_id FK
+    int professor_id FK
+    int capacity
+  }
+
+  Career_Courses {
+    int course_id FK
+    int career_id FK
+    int semester
+  }
+
+  Career_Students {
+    int career_id FK
+    int user_id FK
+    int current_semester
+  }
+
+  Student_Courses {
+    int course_schedule_id FK
+    int user_id FK
+  }
+
+  Faculties ||--o{ Careers : has
+  Faculties ||--o{ Courses : offers
+  Careers ||--o{ Career_Courses : includes
+  Courses ||--o{ Career_Courses : belongs_to
+  Courses ||--o{ Course_Schedule : scheduled_in
+  Schedules ||--o{ Course_Schedule : defines
+  Classrooms ||--o{ Course_Schedule : assigned_to
+  Buildings ||--o{ Classrooms : contains
+  Roles ||--o{ Users : assigns
+  Users ||--o{ Career_Students : enrolls
+  Careers ||--o{ Career_Students : has
+  Users ||--o{ Student_Courses : takes
+  Course_Schedule ||--o{ Student_Courses : registers
